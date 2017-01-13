@@ -78,10 +78,25 @@ node {
     stage("Set up the DB") {
       sh("RAILS_ENV=test bundle exec rake db:drop db:create db:schema:load")
     }
+    
+    stage("Stroke mustache") {
+      sh("RAILS_ENV=test bundle exec rake shared_mustache:compile --trace")
+    }
 
     stage("Run tests") {
-      sh("RAILS_ENV=test bundle exec rake ci:setup:minitest test:in_parallel --trace")
-      sh("RAILS_ENV=production GOVUK_ASSET_ROOT=http://static.test.alphagov.co.uk bundle exec rake assets:precompile --trace")
+      sh("RAILS_ENV=test bundle exec rake ci:setup:minitest parallel:test --trace")
+    }
+
+    stage("Run features") {
+      sh("RAILS_ENV=test bundle exec rake ci:setup:minitest parallel:test --trace")
+    }
+
+    stage("Run JS Tests") {
+      sh("RAILS_ENV=test bundle exec rake test:javascript --trace")
+    }
+
+    stage("Shave mustache") {
+      sh("RAILS_ENV=test bundle exec rake shared_mustache:clean")
     }
 
     if (env.BRANCH_NAME == 'master') {
