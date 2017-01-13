@@ -15,7 +15,7 @@ node {
     [$class: 'ThrottleJobProperty',
       categories: [],
       limitOneJobWithMatchingParams: true,
-      maxConcurrentPerNode: 1,
+      maxConcurrentPerNode: 8,
       maxConcurrentTotal: 0,
       paramsToUseForLimit: 'whitehall',
       throttleEnabled: true,
