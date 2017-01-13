@@ -15,7 +15,7 @@ node {
     [$class: 'ThrottleJobProperty',
       categories: [],
       limitOneJobWithMatchingParams: true,
-      maxConcurrentPerNode: 8,
+      maxConcurrentPerNode: 1,
       maxConcurrentTotal: 0,
       paramsToUseForLimit: 'whitehall',
       throttleEnabled: true,
@@ -84,11 +84,11 @@ node {
     }
 
     stage("Run tests") {
-      sh("RAILS_ENV=test bundle exec rake ci:setup:minitest parallel:test --trace")
+      sh("RAILS_ENV=test bundle exec rake test --trace")
     }
 
     stage("Run features") {
-      sh("RAILS_ENV=test bundle exec rake ci:setup:minitest parallel:test --trace")
+      sh("RAILS_ENV=test bundle exec rake features --trace")
     }
 
     stage("Run JS Tests") {
