@@ -61,3 +61,8 @@ Once that is imported upgrade your import to the latest schema version with
 $ bundle exec rake db:setup
 ```
 
+To access admin pages you will need at least one user in the database.
+
+```
+$ rails runner "User.create(email: 'email@example.com', name: 'Example User')"
+```
